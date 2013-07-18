@@ -1,4 +1,4 @@
-set nocompatible
+set nocompatible             " vim, not vi
 " source $VIMRUNTIME/vimrc_example.vim
 " source $VIMRUNTIME/mswin.vim
 "behave mswin
@@ -53,7 +53,6 @@ set noautowrite               " don't automagically write on :next
 set lazyredraw                " don't redraw when don't have to
 set showmode
 set showcmd
-set nocompatible              " vim, not vi
 set autoindent smartindent    " auto/smart indent
 set expandtab                 " expand tabs to spaces
 set smarttab                  " tab and backspace are smart
