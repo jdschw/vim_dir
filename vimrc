@@ -1,3 +1,4 @@
+"-- initial setup
 set nocompatible             " vim, not vi
 " source $VIMRUNTIME/vimrc_example.vim
 " source $VIMRUNTIME/mswin.vim
@@ -6,11 +7,12 @@ set nocompatible             " vim, not vi
 filetype off
 " filetype is enabled in the next section
 
+"-- bundle related stuff (for plugins)
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle 'gmarik/vundle'
 
 " My Bundles here:
@@ -25,7 +27,8 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
-set viewoptions-=options " I don't want to preserve options in my views
+"-- I don't want to preserve options in my views
+set viewoptions-=options
 augroup view_stuff
   au!
   au BufWinLeave * silent! mkview
@@ -34,8 +37,7 @@ augroup view_stuff
   au BufNewFile,BufRead *.otgm set filetype=matlab
 augroup END
 
-" ---------------------------------------------------------------------------
-" operational settings
+"-- operational settings
 filetype indent plugin on     " Enable filetype detection, indenting, plugins
 
 "compiler ruby                 " Enable compiler support for ruby
@@ -64,8 +66,8 @@ set ignorecase                " searches will be case insensitive
 set smartcase                 " searches with Capital Letters will override
                               " the above option and be case-sensitive
 setglobal scrolloff=5         " keep at least 5 lines above/below
-setglobal sidescrolloff=5    " keep at least 5 lines left/right
-setglobal sidescroll=2       " when work wrap is off, scroll sideways by
+setglobal sidescrolloff=5     " keep at least 5 lines left/right
+setglobal sidescroll=2        " when word wrap is off, scroll sideways by
                               " 2 lines at a time
 set backspace=indent,eol,start
 set showfulltag               " show full completion tags
@@ -74,7 +76,7 @@ set report=0                  " show number of substitutions when > 0 (i.e. alwa
 set linebreak
 set cmdheight=2               " command line two lines high
 set undolevels=1000           " 1000 undos
-set updatecount=100           " switch every 100 chars
+set updatecount=100           " save every 100 chars
 set complete=.,w,b,u,U,t,i,d  " do lots of scanning on tab completion
 set ttyfast                   " we have a fast terminal
 "set wildmode=list:longest
@@ -86,6 +88,7 @@ set wildignore+=*.o,*~,.lo    " ignore object files
 set wildmenu                  " menu has tab completion
 let maplocalleader=','        " all my macros start with ,
 let mapleader=','             " all my macros start with ,
+set fillchars=vert:\|,fold:\  " get rid of the annoying dashes after fold text
 set foldcolumn=2              " 2 lines of column for fold showing, always
 " set modelines=0               " modelines have security exploits
 set pastetoggle=<F11>
@@ -101,6 +104,20 @@ set relativenumber            " makes the line number relative to the current li
 set nobackup
 set guifont=Monospace\ 7
 
+"-- Experimenting with a different format for fold text
+function! NeatFoldText()
+  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+  let lines_count = v:foldend - v:foldstart + 1
+  let lines_count_text = '| ' . printf("%5s", lines_count) . ' |'
+  let foldchar = matchstr(&fillchars, 'fold:\zs.')
+  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+  let foldtextend = lines_count_text . repeat(foldchar, 8)
+  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
+set foldtext=NeatFoldText()
+
+"-- autocommands to fix relativenumber
 augroup vimrc_autocmds
   au!
   au BufWinEnter * set relativenumber " makes the line number relative to the current line
@@ -108,8 +125,7 @@ augroup vimrc_autocmds
   "autocmd BufEnter * match OverLength /\%80v.*/
 augroup END
 
-" ---------------------------------------------------------------------------
-" some useful mappings
+"-- random useful mappings
 " source the vimrc file
 nnoremap <leader>S :source ~/.vimrc<cr>
 " Y yanks from cursor to $
@@ -136,8 +152,7 @@ nnoremap <Leader>tt :Tlist<cr>
 " ,nn will toggle NERDTree on and off
 nnoremap <Leader>nn :NERDTreeToggle<cr>
 
-" ---------------------------------------------------------------------------
-" tabs
+"-- tabs
 " (Leader is ",")
 " create a new tab
 nnoremap <Leader>tc :tabnew
@@ -153,8 +168,8 @@ nnoremap <Leader>tp :tabprev<cr>
 nnoremap <A-p> :tabprev<cr>
 " move a tab to a new location
 nnoremap <Leader>tm :tabmove
-" ---------------------------------------------------------------------------
-"  buffers
+
+"-- buffers
 " open all buffers into their own tabs
 nnoremap <Leader>BT :tab sball<cr>
 " list buffers and prepare to open a buffer
@@ -169,8 +184,7 @@ nnoremap <Leader>BS :buffers<cr>:sbuffer<space>
 nnoremap <Leader>Bd :buffers<cr>:bdelete<space>
 nnoremap <Leader>BD :buffers<cr>:bdelete<space>
 
-" ---------------------------------------------------------------------------
-"  splits
+"-- splits
 " allows for fast opening of the gvimrc into a split
 nnoremap <leader>sv :rightbelow split<cr>:e ~/.vimrc<cr>
 nnoremap <leader>ev :e ~/.vimrc<cr>
@@ -192,16 +206,14 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-" ---------------------------------------------------------------------------
-" Changing the size of the gvim window
+"-- Changing the size of the gvim window
 nnoremap <Leader>ww :set columns=300<cr>:set lines=82<cr>
 nnoremap <Leader>wl :set columns=180<cr>
 nnoremap <Leader>wh :set columns=100<cr>
 nnoremap <Leader>wk :set lines=25<cr>
 nnoremap <Leader>wj :set lines=50<cr>
 
-" ---------------------------------------------------------------------------
-" Changing the size of the current split
+"-- Changing the size of the current split
 nnoremap <C-Left> <C-W>5<
 nnoremap <C-Right> <C-W>5>
 nnoremap <C-Down> <C-W>5-
@@ -209,8 +221,7 @@ nnoremap <C-Up> <C-W>5+
 nnoremap <F9> <C-W>=
 nnoremap <F8> :resize<cr>:vertical resize<cr>
 
-" ---------------------------------------------------------------------------
-" comments
+"-- comments
 function! CommentMyLine()
   s/^/%\ /e
 endfunction
@@ -223,20 +234,18 @@ nnoremap <Leader>x :call UncommentMyLine()<cr><cr>
 vnoremap <Leader>c :call CommentMyLine()<cr><cr>
 vnoremap <Leader>x :call UncommentMyLine()<cr><cr>
 
-" ---------------------------------------------------------------------------
-" ctags
+"-- ctags
 nnoremap <Leader>tt :!ctags -R .<cr>
 " open the new tag in a vertical split
 nnoremap <C-\> :belowright vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 " open the new tag in a horizontal split
 nnoremap <C-M-\> :belowright sp <CR>:exec("tag ".expand("<cword>"))<CR>
-" ---------------------------------------------------------------------------
-"  folding
+
+"-- folding
 " map <Leader>z zf/%%<cr>j
 nnoremap <Leader>zz :set foldmethod=syntax<cr>  " turn on syntax folding
 
-" ---------------------------------------------------------------------------
-" misc
+"-- misc
 " This colorscheme is easy on the eyes, plus I prefer to set an inconspicuous
 " color for the warning track
 "colorscheme darkblue
@@ -276,8 +285,8 @@ vnoremap <silent> # :<C-U>
   \gvy?<C-R><C-R>=substitute(
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
-" -----------------------------------------------------------------------------
-" abbreviations
+
+"-- abbreviations
 " some F6-specific keywords that are handy to speed up typing.
 iabbrev f6 F6
 iabbrev fdk FDK
