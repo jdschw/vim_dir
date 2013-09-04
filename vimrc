@@ -21,13 +21,16 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'matchit.zip'
 Bundle 'IndexedSearch'
 Bundle 'jdschw/filetype_overrides'
+" Bundle 'fholgado/minibufexpl.vim'
+" Bundle 'L9'
+" Bundle 'FuzzyFinder'
 
 " YCM options
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
-"-- I don't want to preserve options in my views
+"-- Preserve views, but not options
 set viewoptions-=options
 augroup view_stuff
   au!
@@ -53,7 +56,7 @@ set number                    " line numbers
 set hidden                    " permits hidden buffers
 set noautowrite               " don't automagically write on :next
 set lazyredraw                " don't redraw when don't have to
-set showmode
+set showmode                  " Shows the current mode on the command bar
 set showcmd
 set autoindent smartindent    " auto/smart indent
 set expandtab                 " expand tabs to spaces
@@ -73,7 +76,7 @@ set backspace=indent,eol,start
 set showfulltag               " show full completion tags
 set noerrorbells              " no error bells please
 set report=0                  " show number of substitutions when > 0 (i.e. always)
-set linebreak
+set linebreak                 " when wrap is on, only wrap at reasonable characters
 set cmdheight=2               " command line two lines high
 set undolevels=1000           " 1000 undos
 set updatecount=100           " save every 100 chars
@@ -104,19 +107,6 @@ set relativenumber            " makes the line number relative to the current li
 set nobackup
 set guifont=Monospace\ 7
 
-"-- Experimenting with a different format for fold text
-function! NeatFoldText()
-  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
-  let lines_count = v:foldend - v:foldstart + 1
-  let lines_count_text = '| ' . printf("%5s", lines_count) . ' |'
-  let foldchar = matchstr(&fillchars, 'fold:\zs.')
-  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-  let foldtextend = lines_count_text . repeat(foldchar, 8)
-  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
-endfunction
-set foldtext=NeatFoldText()
-
 "-- autocommands to fix relativenumber
 augroup vimrc_autocmds
   au!
@@ -125,9 +115,7 @@ augroup vimrc_autocmds
   "autocmd BufEnter * match OverLength /\%80v.*/
 augroup END
 
-"-- random useful mappings
-" source the vimrc file
-nnoremap <leader>S :source ~/.vimrc<cr>
+"-- subtle remapping of basic keys
 " Y yanks from cursor to $
 nnoremap Y y$
 " for yankring to work with previous mapping:
@@ -145,12 +133,23 @@ vnoremap <F1> <ESC>
 nnoremap ; :
 " allow a faster way to get back into normal mode
 inoremap jj <ESC>
-" save and build
-nnoremap <Leader>wm  :w<cr>:make<cr>
-" ,tt will toggle taglist on and off
-nnoremap <Leader>tt :Tlist<cr>
-" ,nn will toggle NERDTree on and off
-nnoremap <Leader>nn :NERDTreeToggle<cr>
+" Lets you search for text selected in visual mode using the word search keys
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+
+"-- Neat operator-pending mappings
+" easier way to operate inside parens
+:onoremap p i(
+" easier way to operate inside quotes
+:onoremap q i"
 
 "-- tabs
 " (Leader is ",")
@@ -171,22 +170,23 @@ nnoremap <Leader>tm :tabmove
 
 "-- buffers
 " open all buffers into their own tabs
-nnoremap <Leader>BT :tab sball<cr>
+" nnoremap <Leader>bt :tab sball<cr>
 " list buffers and prepare to open a buffer
-nnoremap <Leader>b :buffers<cr>:buffer<space>
-nnoremap <Leader>BB :buffers<cr>:buffer<space>
+nnoremap <Leader>b :buffers<cr>:b<space>
+nnoremap <Leader>bb :buffers<cr>:b<space>
+nnoremap <Leader>B :buffers<cr>:b<space>
 " list buffers and prepare to open a buffer or edit a new file
-nnoremap <Leader>eb :buffers<cr>:e<space>#
-nnoremap <Leader>BE :buffers<cr>:e<space>#
+nnoremap <Leader>be :buffers<cr>:e<space>#
+nnoremap <Leader>bs :buffers<cr>:vert rightbelow sbuffer<space>
 " list buffers and prepare to delete a buffer
-nnoremap <Leader>Bs :buffers<cr>:sbuffer<space>
-nnoremap <Leader>BS :buffers<cr>:sbuffer<space>
-nnoremap <Leader>Bd :buffers<cr>:bdelete<space>
-nnoremap <Leader>BD :buffers<cr>:bdelete<space>
+" nnoremap <Leader>bd :buffers<cr>:bdelete<space>
+com! DeleteCurrentBuffer execute "bp|bd #"
+nnoremap <Leader>bd :DeleteCurrentBuffer<cr>
+nnoremap <Leader>bD :buffers<cr>:bdelete<space>
 
 "-- splits
 " allows for fast opening of the gvimrc into a split
-nnoremap <leader>sv :rightbelow split<cr>:e ~/.vimrc<cr>
+nnoremap <leader>sv :rightbelow vsplit<cr>:e ~/.vimrc<cr>
 nnoremap <leader>ev :e ~/.vimrc<cr>
 
 " create a vertical split and move into it
@@ -214,10 +214,10 @@ nnoremap <Leader>wk :set lines=25<cr>
 nnoremap <Leader>wj :set lines=50<cr>
 
 "-- Changing the size of the current split
-nnoremap <C-Left> <C-W>5<
-nnoremap <C-Right> <C-W>5>
-nnoremap <C-Down> <C-W>5-
-nnoremap <C-Up> <C-W>5+
+nnoremap <S-Left> <C-W>5<
+nnoremap <S-Right> <C-W>5>
+nnoremap <S-Down> <C-W>5-
+nnoremap <S-Up> <C-W>5+
 nnoremap <F9> <C-W>=
 nnoremap <F8> :resize<cr>:vertical resize<cr>
 
@@ -241,15 +241,54 @@ nnoremap <C-\> :belowright vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 " open the new tag in a horizontal split
 nnoremap <C-M-\> :belowright sp <CR>:exec("tag ".expand("<cword>"))<CR>
 
+"-- run a shell command and see the output in a new buffer
+function! s:ExecuteInShell(command) " {{{
+    let command = join(map(split(a:command), 'expand(v:val)'))
+    let winnr = bufwinnr('^' . command . '$')
+    silent! execute  winnr < 0 ? 'botright 10new ' . fnameescape(command) : winnr . 'wincmd w'
+    setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap nonumber
+    echo 'Execute ' . command . '...'
+    silent! execute 'silent %!'. command
+    silent! redraw
+    silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
+    silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . command . ''')<CR>'
+    silent! execute 'nnoremap <silent> <buffer> q :q<CR>'
+    silent! execute 'AnsiEsc'
+    echo 'Shell command ' . command . ' executed.'
+endfunction " }}}
+command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
+nnoremap <leader>! :Shell
+
+" make specific projects and put the results into a buffer
+nnoremap <leader>mz :Shell make -C ~/src/ng_gv_3d/src/fake_zbox/build --no-print-directory<cr>
+nnoremap <leader>mf :Shell make -C ~/src/ng_gv_3d/src/pt_cloud_fusion/build --no-print-directory<cr>
+nnoremap <leader>mv :Shell make -C ~/src/ng_gv_3d/src/fake_viz/build --no-print-directory<cr>
+
 "-- folding
 " map <Leader>z zf/%%<cr>j
-nnoremap <Leader>zz :set foldmethod=syntax<cr>  " turn on syntax folding
+noremap <C-n> zj
+noremap <C-m> zk
+noremap <Leader>z4 :set foldnestmax=4<cr>
+noremap <Leader>z3 :set foldnestmax=3<cr>
+noremap <Leader>z2 :set foldnestmax=2<cr>
+noremap <Leader>z1 :set foldnestmax=1<cr>
 
-"-- misc
+" Experimenting with a different format for fold text
+function! NeatFoldText()
+  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+  let lines_count = v:foldend - v:foldstart + 1
+  let lines_count_text = '| ' . printf("%5s", lines_count) . ' |'
+  let foldchar = matchstr(&fillchars, 'fold:\zs.')
+  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+  let foldtextend = lines_count_text . repeat(foldchar, 8)
+  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
+set foldtext=NeatFoldText()
+
+"-- colorscheme & formatting
 " This colorscheme is easy on the eyes, plus I prefer to set an inconspicuous
 " color for the warning track
-"colorscheme darkblue
-"highlight ColorColumn guibg=#000022
 colorscheme marklar
 highlight ColorColumn guibg=#06443a
 " handy shortcut for formatting a paragraph in normal mode
@@ -274,17 +313,19 @@ function! ElimTrailingWhitespace()
   silent! %s/\s\+$//
 endfunction
 nnoremap <Leader>QS :call ElimTrailingWhitespace()<cr>:w<cr>
-" Search for selected text, forwards or backwards.
-vnoremap <silent> * :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy/<C-R><C-R>=substitute(
-  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gV:call setreg('"', old_reg, old_regtype)<CR>
-vnoremap <silent> # :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy?<C-R><C-R>=substitute(
-  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gV:call setreg('"', old_reg, old_regtype)<CR>
+
+"-- misc useful mappings
+" source the vimrc file
+nnoremap <leader>S :source ~/.vimrc<cr>
+" save and build
+nnoremap <Leader>wm :w<cr>:make<cr>
+" ,nn will toggle NERDTree on and off
+nnoremap <Leader>nn :NERDTreeToggle<cr>
+" add a semicolon at the end of the line I'm on
+com! AddSemicolon execute "normal! mqA;\<Esc>`q"
+nnoremap <Leader>; :AddSemicolon<cr>
+" swap the two sides of an assignment call, leave the semicolon alone
+nnoremap <Leader>es :s/\v(\S+) \= (\S*);@=/\2 = \1/<cr>:noh<cr>
 
 "-- abbreviations
 " some F6-specific keywords that are handy to speed up typing.
