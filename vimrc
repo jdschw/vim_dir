@@ -85,6 +85,8 @@ set ttyfast                   " we have a fast terminal
 "set wildmode=list:longest
 "set wildmode=longest:full
 set wildmode=full
+set   listchars=tab:>-,trail:- " show tabs and trailing spaces
+
 set switchbuf=usetab          " when using :sb, if a tab with the given buffer
                               " is already open, sb will switch to it
 set wildignore+=*.o,*~,.lo    " ignore object files
@@ -107,10 +109,12 @@ set relativenumber            " makes the line number relative to the current li
 set nobackup
 set guifont=Monospace\ 7
 
-"-- autocommands to fix relativenumber
+"-- autocommands for various things
 augroup vimrc_autocmds
   au!
+  au ColorScheme * highlight ExtraWhitespace ctermbg=darkgrey guibg=#294929
   au BufWinEnter * set relativenumber " makes the line number relative to the current line
+  au BufWinEnter * match ExtraWhitespace /\s\+$/
   "autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#592929
   "autocmd BufEnter * match OverLength /\%80v.*/
 augroup END
