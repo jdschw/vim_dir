@@ -7,6 +7,7 @@ set nocompatible             " vim, not vi
 filetype off
 " filetype is enabled in the next section
 
+
 "-- bundle related stuff (for plugins)
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -46,9 +47,10 @@ filetype indent plugin on     " Enable filetype detection, indenting, plugins
 "compiler ruby                 " Enable compiler support for ruby
 syntax on
 "set lines=50 columns=100      " sets the initial size of the gvim window
-set dir=~/.vimswap//,/var/tmp//,/tmp//,.
-                              " Store swap files in fixed location, not
-                              " current directory.
+set backup                    " keep backups ...
+set backupdir=~/.backup//,/var/tmp//,/tmp//,.
+                              " ...but in a different, dedicated directory.
+set dir=~/.vimswap//,/var/tmp//,/tmp//,.  " Same with swap files.
 set ruler                     " show the line number on the bar
 set more                      " use more prompt
 set autoread                  " watch for file changes
@@ -106,7 +108,6 @@ set hlsearch                  " highlight search results
 set showmatch                 " when typing a brace or parens, show the matching brace/parens
 set incsearch                 " show search results as you type
 set relativenumber            " makes the line number relative to the current line
-set nobackup
 set guifont=Monospace\ 7
 
 "-- autocommands for various things
