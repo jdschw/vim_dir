@@ -65,8 +65,6 @@ set expandtab                 " expand tabs to spaces
 set smarttab                  " tab and backspace are smart
 set tabstop=2
 set shiftwidth=2
-setglobal foldmethod=manual   " start with manual folding.  A command below
-                              " can be used to set syntax folding.
 set ignorecase                " searches will be case insensitive
 set smartcase                 " searches with Capital Letters will override
                               " the above option and be case-sensitive
