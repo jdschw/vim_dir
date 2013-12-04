@@ -105,15 +105,19 @@ set fo=cqrn1                  " format options.  type :help fo-table for more in
 set hlsearch                  " highlight search results
 set showmatch                 " when typing a brace or parens, show the matching brace/parens
 set incsearch                 " show search results as you type
-set relativenumber            " makes the line number relative to the current line
+set number                    " show the line number
+"set relativenumber            " makes the line number relative to the current line
 set guifont=Monospace\ 7
 
 "-- autocommands for various things
 augroup vimrc_autocmds
   au!
   au ColorScheme * highlight ExtraWhitespace ctermbg=darkgrey guibg=#294929
-  au BufWinEnter * set relativenumber " makes the line number relative to the current line
+  au BufEnter,FocusGained * :setlocal relativenumber " makes the line number relative to the current line
   au BufWinEnter * match ExtraWhitespace /\s\+$/
+  au BufLeave,FocusLost * :setlocal norelativenumber
+  au InsertEnter * :setlocal norelativenumber
+  au InsertLeave * :setlocal relativenumber
   "autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#592929
   "autocmd BufEnter * match OverLength /\%80v.*/
 augroup END
@@ -316,6 +320,17 @@ function! ElimTrailingWhitespace()
   silent! %s/\s\+$//
 endfunction
 nnoremap <Leader>QS :call ElimTrailingWhitespace()<cr>:w<cr>
+
+function! g:ToggleNuMode()
+  if(&relativenumber == 1)
+    set norelativenumber
+  else
+    set relativenumber
+  endif
+endfunc
+
+map <leader>vn :call g:ToggleNuMode()<CR>
+
 
 "-- misc useful mappings
 " source the vimrc file
