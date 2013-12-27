@@ -31,12 +31,10 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
-"-- Preserve views, but not options
+"-- Set some filetype defaults
 set viewoptions-=options
-augroup view_stuff
+augroup filetype_defaults
   au!
-  au BufWinLeave * silent! mkview
-  au BufWinEnter * silent! loadview
   au BufNewFile,BufRead *.ahk setf ahk
   au BufNewFile,BufRead *.otgm set filetype=matlab
 augroup END
@@ -47,6 +45,8 @@ filetype indent plugin on     " Enable filetype detection, indenting, plugins
 "compiler ruby                 " Enable compiler support for ruby
 syntax on
 "set lines=50 columns=100      " sets the initial size of the gvim window
+set undofile                    " keep backups ...
+set undodir=~/.backup//,/var/tmp//,/tmp//,.
 set backup                    " keep backups ...
 set backupdir=~/.backup//,/var/tmp//,/tmp//,.
                               " ...but in a different, dedicated directory.
