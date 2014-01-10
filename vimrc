@@ -17,12 +17,14 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " My Bundles here:
+Bundle 'FormatBlock'
 Bundle 'scrooloose/nerdtree'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'matchit.zip'
 Bundle 'IndexedSearch'
 Bundle 'jdschw/filetype_overrides'
-" Bundle 'fholgado/minibufexpl.vim'
+Bundle 'FormatComment.vim'
+Bundle 'jdschw/SimpylFold'
 " Bundle 'L9'
 " Bundle 'FuzzyFinder'
 
