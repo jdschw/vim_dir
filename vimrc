@@ -32,6 +32,7 @@ Bundle 'jdschw/SimpylFold'
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_min_num_of_chars_for_completion = 4
 
 "-- Set some filetype defaults
 set viewoptions-=options
@@ -301,7 +302,7 @@ set foldtext=NeatFoldText()
 colorscheme marklar
 highlight ColorColumn guibg=#06443a
 " handy shortcut for formatting a paragraph in normal mode
-nnoremap <Leader>q gqap
+nnoremap <Leader>q :call FormatComment()<CR>
 " handy shortcuts for converting a word to uppercase
 nnoremap <Leader>~ gUawe
 inoremap <F2> <ESC>bgUawea
