@@ -110,7 +110,7 @@ set showmatch                 " when typing a brace or parens, show the matching
 set incsearch                 " show search results as you type
 set number                    " show the line number
 "set relativenumber            " makes the line number relative to the current line
-set guifont=Monospace\ 7
+set guifont=Monospace\ 9
 
 "-- autocommands for various things
 augroup vimrc_autocmds
