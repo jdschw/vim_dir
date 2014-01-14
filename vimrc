@@ -54,6 +54,7 @@ set backup                    " keep backups ...
 set backupdir=~/.backup//,/var/tmp//,/tmp//,.
                               " ...but in a different, dedicated directory.
 set dir=~/.vimswap//,/var/tmp//,/tmp//,.  " Same with swap files.
+set mouse=nvi                 " allows the mouse to move the cursor in vim
 set ruler                     " show the line number on the bar
 set more                      " use more prompt
 set autoread                  " watch for file changes
