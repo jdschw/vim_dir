@@ -32,7 +32,7 @@ Bundle 'jdschw/SimpylFold'
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_min_num_of_chars_for_completion = 4
+let g:ycm_min_num_of_chars_for_completion = 3
 
 "-- Set some filetype defaults
 set viewoptions-=options
@@ -274,6 +274,7 @@ nnoremap <leader>! :Shell
 nnoremap <leader>mz :Shell make -C ~/src/ng_gv_3d/src/fake_zbox/build --no-print-directory<cr>
 nnoremap <leader>mf :Shell make -C ~/src/ng_gv_3d/src/pt_cloud_fusion/build --no-print-directory<cr>
 nnoremap <leader>mv :Shell make -C ~/src/ng_gv_3d/src/fake_viz/build --no-print-directory<cr>
+nnoremap <leader>ms :Shell make -C ~/src/ng_gv_3d/src/stereo_vision --no-print-directory<cr>
 
 "-- folding
 " map <Leader>z zf/%%<cr>j
