@@ -350,7 +350,7 @@ nnoremap <Leader>; :AddSemicolon<cr>
 " swap the two sides of an assignment call, leave the semicolon alone
 nnoremap <Leader>es :s/\v(\S+) \= (\S*);@=/\2 = \1/<cr>:noh<cr>
 " spread a conditional expression onto four lines (for C++)
-nnoremap <Leader>ec :s/^\(\s*\)\(.*\) { \(.*\)}.*$/\1\2\r\1{\r\1\t\3\r\1}
+nnoremap <Leader>ec :s/^\(\s*\)\(.*\) { \(.*\)}.*$/\1\2\r\1{\r\1\t\3\r\1}/<cr>:noh<cr>
 
 "-- abbreviations
 " some F6-specific keywords that are handy to speed up typing.
