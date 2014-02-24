@@ -303,6 +303,7 @@ set foldtext=NeatFoldText()
 " color for the warning track
 colorscheme marklar
 highlight ColorColumn guibg=#06443a
+highlight ColorColumn ctermbg=darkgrey
 " handy shortcut for formatting a paragraph in normal mode
 nnoremap <Leader>q :call FormatComment()<CR>
 " handy shortcuts for converting a word to uppercase
