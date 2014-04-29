@@ -117,11 +117,11 @@ set guifont=Monospace\ 9
 augroup vimrc_autocmds
   au!
   au ColorScheme * highlight ExtraWhitespace ctermbg=darkgrey guibg=#294929
-  au BufEnter,FocusGained * :setlocal relativenumber " makes the line number relative to the current line
+"   au BufEnter,FocusGained * :setlocal relativenumber " makes the line number relative to the current line
   au BufWinEnter * match ExtraWhitespace /\s\+$/
-  au BufLeave,FocusLost * :setlocal norelativenumber
-  au InsertEnter * :setlocal norelativenumber
-  au InsertLeave * :setlocal relativenumber
+"   au BufLeave,FocusLost * :setlocal norelativenumber
+"   au InsertEnter * :setlocal norelativenumber
+"   au InsertLeave * :setlocal relativenumber
   "autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#592929
   "autocmd BufEnter * match OverLength /\%80v.*/
 augroup END
