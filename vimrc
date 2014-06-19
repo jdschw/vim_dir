@@ -280,10 +280,10 @@ nnoremap <leader>ms :Shell make -C ~/src/ng_gv_3d/src/stereo_vision --no-print-d
 " map <Leader>z zf/%%<cr>j
 noremap <C-n> zj
 noremap <C-m> zk
-noremap <Leader>z4 :set foldnestmax=4<cr>
-noremap <Leader>z3 :set foldnestmax=3<cr>
-noremap <Leader>z2 :set foldnestmax=2<cr>
-noremap <Leader>z1 :set foldnestmax=1<cr>
+noremap <Leader>z4 :set foldnestmax=4<cr>zx<cr>
+noremap <Leader>z3 :set foldnestmax=3<cr>zx<cr>
+noremap <Leader>z2 :set foldnestmax=2<cr>zx<cr>
+noremap <Leader>z1 :set foldnestmax=1<cr>zx<cr>
 
 " Experimenting with a different format for fold text
 function! NeatFoldText()
