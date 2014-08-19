@@ -40,6 +40,7 @@ augroup filetype_defaults
   au!
   au BufNewFile,BufRead *.ahk setf ahk
   au BufNewFile,BufRead *.otgm set filetype=matlab
+  au BufNewFile,BufRead *.launch set filetype=xml
 augroup END
 
 "-- operational settings
