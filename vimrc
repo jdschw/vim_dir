@@ -25,6 +25,8 @@ Bundle 'IndexedSearch'
 Bundle 'jdschw/filetype_overrides'
 Bundle 'FormatComment.vim'
 Bundle 'jdschw/SimpylFold'
+Bundle 'kien/ctrlp.vim'
+
 " Bundle 'L9'
 " Bundle 'FuzzyFinder'
 
@@ -33,6 +35,10 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_min_num_of_chars_for_completion = 3
+
+" ctrlp options
+let g:ctrlp_working_path_mode = '0'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:20'
 
 "-- Set some filetype defaults
 set viewoptions-=options
@@ -94,7 +100,7 @@ set   listchars=tab:>-,trail:- " show tabs and trailing spaces
 
 set switchbuf=usetab          " when using :sb, if a tab with the given buffer
                               " is already open, sb will switch to it
-set wildignore+=*.o,*~,.lo    " ignore object files
+set wildignore+=*.o,*~,.lo,*.d    " ignore object files
 set wildmenu                  " menu has tab completion
 let maplocalleader=','        " all my macros start with ,
 let mapleader=','             " all my macros start with ,
@@ -235,10 +241,10 @@ nnoremap <F8> :resize<cr>:vertical resize<cr>
 
 "-- comments
 function! CommentMyLine()
-  s/^/%\ /e
+  s/^/#\ /e
 endfunction
 function! UncommentMyLine()
-  s/^%\ //e
+  s/^#\ //e
 endfunction
 
 nnoremap <Leader>c :call CommentMyLine()<cr><cr>
