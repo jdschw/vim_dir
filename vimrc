@@ -80,6 +80,7 @@ set shiftwidth=2
 set ignorecase                " searches will be case insensitive
 set smartcase                 " searches with Capital Letters will override
                               " the above option and be case-sensitive
+set list
 setglobal scrolloff=5         " keep at least 5 lines above/below
 setglobal sidescrolloff=5     " keep at least 5 lines left/right
 setglobal sidescroll=2        " when word wrap is off, scroll sideways by
@@ -122,6 +123,10 @@ set number                    " show the line number
 set guifont=Monospace\ 9
 
 "-- autocommands for various things
+
+" recognize the triple-slash comment in c/cpp files (useful for doxygen)
+autocmd Filetype c,cpp set comments^=:///
+
 augroup vimrc_autocmds
   au!
   au ColorScheme * highlight ExtraWhitespace ctermbg=darkgrey guibg=#294929
@@ -166,7 +171,7 @@ vnoremap <silent> # :<C-U>
 
 "-- Neat operator-pending mappings
 " easier way to operate inside parens
-:onoremap p i(
+:onoremap P i(
 " easier way to operate inside quotes
 :onoremap q i"
 
@@ -226,7 +231,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 "-- Changing the size of the gvim window
-nnoremap <Leader>ww :set columns=300<cr>:set lines=82<cr>
+nnoremap <Leader>ww :set columns=270<cr>:set lines=82<cr>
 nnoremap <Leader>wl :set columns=180<cr>
 nnoremap <Leader>wh :set columns=100<cr>
 nnoremap <Leader>wk :set lines=25<cr>
