@@ -26,6 +26,7 @@ Bundle 'jdschw/filetype_overrides'
 Bundle 'FormatComment.vim'
 Bundle 'jdschw/SimpylFold'
 Bundle 'kien/ctrlp.vim'
+Bundle 'tpope/vim-surround'
 
 " Bundle 'L9'
 " Bundle 'FuzzyFinder'
