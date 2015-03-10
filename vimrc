@@ -47,6 +47,7 @@ augroup filetype_defaults
   au!
   au BufNewFile,BufRead *.ahk setf ahk
   au BufNewFile,BufRead *.otgm set filetype=matlab
+  au BufNewFile,BufRead *.c set filetype=cpp
   au BufNewFile,BufRead *.launch set filetype=xml
 augroup END
 
@@ -98,7 +99,7 @@ set ttyfast                   " we have a fast terminal
 "set wildmode=list:longest
 "set wildmode=longest:full
 set wildmode=full
-set   listchars=tab:>-,trail:- " show tabs and trailing spaces
+set listchars=tab:>-,trail:-  " show tabs and trailing spaces
 
 set switchbuf=usetab          " when using :sb, if a tab with the given buffer
                               " is already open, sb will switch to it
