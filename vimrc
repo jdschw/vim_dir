@@ -76,8 +76,8 @@ set showcmd
 set autoindent smartindent    " auto/smart indent
 set expandtab                 " expand tabs to spaces
 set smarttab                  " tab and backspace are smart
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set ignorecase                " searches will be case insensitive
 set smartcase                 " searches with Capital Letters will override
                               " the above option and be case-sensitive
@@ -255,9 +255,9 @@ function! UncommentMyLine()
 endfunction
 
 nnoremap <Leader>c :call CommentMyLine()<cr><cr>
-nnoremap <Leader>x :call UncommentMyLine()<cr><cr>
+nnoremap <Leader>u :call UncommentMyLine()<cr><cr>
 vnoremap <Leader>c :call CommentMyLine()<cr><cr>
-vnoremap <Leader>x :call UncommentMyLine()<cr><cr>
+vnoremap <Leader>u :call UncommentMyLine()<cr><cr>
 
 "-- ctags
 nnoremap <Leader>tt :!ctags -R .<cr>
@@ -365,7 +365,7 @@ nnoremap <Leader>; :AddSemicolon<cr>
 " swap the two sides of an assignment call, leave the semicolon alone
 nnoremap <Leader>es :s/\v(\S+) \= (\S*);@=/\2 = \1/<cr>:noh<cr>
 " spread a conditional expression onto four lines (for C++)
-nnoremap <Leader>ec :s/^\(\s*\)\(.*\) { \(.*\) }.*$/\1\2\r\1{\r\1  \3\r\1}/<cr>:noh<cr>
+nnoremap <Leader>ec :s/^\(\s*\)\(.*\) { \(.*\) }.*$/\1\2\r\1{\r\1\t\3\r\1}/<cr>:-2,.retab<cr>:noh<cr>
 
 "-- abbreviations
 " some F6-specific keywords that are handy to speed up typing.
