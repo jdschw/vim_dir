@@ -366,6 +366,16 @@ nnoremap <Leader>; :AddSemicolon<cr>
 nnoremap <Leader>es :s/\v(\S+) \= (\S*);@=/\2 = \1/<cr>:noh<cr>
 " spread a conditional expression onto four lines (for C++)
 nnoremap <Leader>ec :s/^\(\s*\)\(.*\) { \(.*\) }.*$/\1\2\r\1{\r\1\t\3\r\1}/<cr>:-2,.retab<cr>:noh<cr>
+" Turn YCM on and off (for cases where autocompletion hangs)
+nnoremap <leader>y :call YCMToggle()<cr>
+
+function! YCMToggle()
+    if g:ycm_auto_trigger
+        let g:ycm_auto_trigger = 0
+    else
+        let g:ycm_auto_trigger = 1
+    endif
+endfunction
 
 "-- abbreviations
 " some F6-specific keywords that are handy to speed up typing.
