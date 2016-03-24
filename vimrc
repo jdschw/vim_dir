@@ -316,9 +316,23 @@ set foldtext=NeatFoldText()
 "-- colorscheme & formatting
 " This colorscheme is easy on the eyes, plus I prefer to set an inconspicuous
 " color for the warning track
-colorscheme marklar
-highlight ColorColumn guibg=#06443a
-highlight ColorColumn ctermbg=darkgrey
+if has('gui_running')
+  colorscheme marklar
+  highlight ColorColumn guibg=#06443a
+else
+  " We are using vim, not gvim
+  " setting the terminal to 256 colors, and setting it back on exit
+  if &term =~ "xterm"
+    " 256 Color
+    let &t_Co=256
+  endif
+
+  colorscheme desert
+  highlight ColorColumn ctermbg=238
+  highlight Folded ctermbg=234
+
+endif
+
 " handy shortcut for formatting a paragraph in normal mode
 nnoremap <Leader>q :call FormatComment()<CR>
 " handy shortcuts for converting a word to uppercase
