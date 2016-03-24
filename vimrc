@@ -49,6 +49,7 @@ augroup filetype_defaults
   au BufNewFile,BufRead *.otgm set filetype=matlab
   au BufNewFile,BufRead *.c set filetype=cpp
   au BufNewFile,BufRead *.launch set filetype=xml
+  au! BufNewFile,BufRead *.csv setf csv
 augroup END
 
 "-- operational settings
