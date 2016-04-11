@@ -27,9 +27,7 @@ Bundle 'FormatComment.vim'
 Bundle 'jdschw/SimpylFold'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-surround'
-
-" Bundle 'L9'
-" Bundle 'FuzzyFinder'
+Bundle 'avakhov/vim-yaml'
 
 " YCM options
 let g:ycm_collect_identifiers_from_tags_files = 1
@@ -233,7 +231,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 "-- Changing the size of the gvim window
-nnoremap <Leader>ww :set columns=270<cr>:set lines=82<cr>
+nnoremap <Leader>ww :set columns=268<cr>:set lines=82<cr>
 nnoremap <Leader>wl :set columns=180<cr>
 nnoremap <Leader>wh :set columns=100<cr>
 nnoremap <Leader>wk :set lines=25<cr>
@@ -330,6 +328,7 @@ else
   colorscheme desert
   highlight ColorColumn ctermbg=238
   highlight Folded ctermbg=234
+  highlight Search ctermbg=18
 
 endif
 
