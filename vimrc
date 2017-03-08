@@ -20,12 +20,15 @@ Bundle 'gmarik/vundle'
 Bundle 'FormatBlock'
 Bundle 'scrooloose/nerdtree'
 Bundle 'Valloric/YouCompleteMe'
+" Bundle 'ajh17/VimCompletesMe'
+Bundle 'rdnetto/YCM-Generator'
 Bundle 'matchit.zip'
 Bundle 'IndexedSearch'
 Bundle 'jdschw/filetype_overrides'
 Bundle 'FormatComment.vim'
 Bundle 'jdschw/SimpylFold'
 Bundle 'kien/ctrlp.vim'
+Bundle 'FelikZ/ctrlp-py-matcher'
 Bundle 'tpope/vim-surround'
 Bundle 'avakhov/vim-yaml'
 
@@ -34,10 +37,19 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_min_num_of_chars_for_completion = 3
+" let g:ycm_filetype_specific_completion_to_disable = {
+"       \ 'cpp': 1
+"       \}
+let g:ycm_error_symbol = '!!'
 
 " ctrlp options
 let g:ctrlp_working_path_mode = '0'
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:20'
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+
+
+" VimCompletesMe
+autocmd FileType c,cpp,python let b:vcm_tab_complete="omni"
 
 "-- Set some filetype defaults
 set viewoptions-=options
@@ -94,6 +106,7 @@ set cmdheight=2               " command line two lines high
 set undolevels=1000           " 1000 undos
 set updatecount=100           " save every 100 chars
 set complete=.,w,b,u,U,t,i,d  " do lots of scanning on tab completion
+set completeopt=menu,longest  " change the behavior of the tab completion menu
 set ttyfast                   " we have a fast terminal
 "set wildmode=list:longest
 "set wildmode=longest:full

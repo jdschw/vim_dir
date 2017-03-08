@@ -71,7 +71,7 @@ if !exists("s:main")
         hi ModeMsg          guifg=#FFFFFF guibg=#0000FF            ctermfg=7 ctermbg=4 cterm=bold
         hi MoreMsg          guifg=#FFFFFF guibg=#00A261            ctermfg=7 ctermbg=2 cterm=bold
         hi NonText          guifg=#00bbbb guibg=#204d40
-        hi Normal           guifg=#71C293 guibg=#06544a
+        hi Normal           guifg=#91E2B3 guibg=#06544a
         hi Question         guifg=#FFFFFF guibg=#00A261
         hi Search           guifg=NONE    guibg=#0f273c            ctermfg=3 ctermbg=0 cterm=bold
 
