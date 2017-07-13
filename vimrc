@@ -19,9 +19,11 @@ Bundle 'gmarik/vundle'
 " My Bundles here:
 Bundle 'FormatBlock'
 Bundle 'scrooloose/nerdtree'
-Bundle 'Valloric/YouCompleteMe'
+Bundle 'Shougo/neocomplete'
+" Bundle 'Valloric/YouCompleteMe'
 " Bundle 'ajh17/VimCompletesMe'
 Bundle 'rdnetto/YCM-Generator'
+Bundle 'nvie/vim-flake8'
 Bundle 'matchit.zip'
 Bundle 'IndexedSearch'
 Bundle 'jdschw/filetype_overrides'
@@ -32,11 +34,18 @@ Bundle 'FelikZ/ctrlp-py-matcher'
 Bundle 'tpope/vim-surround'
 Bundle 'avakhov/vim-yaml'
 
+" Neocomplete options
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+
 " YCM options
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_min_num_of_chars_for_completion = 3
+" let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_confirm_extra_conf = 0
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_min_num_of_chars_for_completion = 3
 " let g:ycm_filetype_specific_completion_to_disable = {
 "       \ 'cpp': 1
 "       \}
@@ -56,6 +65,7 @@ set viewoptions-=options
 augroup filetype_defaults
   au!
   au BufNewFile,BufRead *.ahk setf ahk
+  au BufNewFile,BufRead ZIP_BUILD set filetype=python
   au BufNewFile,BufRead *.otgm set filetype=matlab
   au BufNewFile,BufRead *.c set filetype=cpp
   au BufNewFile,BufRead *.launch set filetype=xml
