@@ -20,9 +20,6 @@ Bundle 'gmarik/vundle'
 Bundle 'FormatBlock'
 Bundle 'scrooloose/nerdtree'
 Bundle 'Shougo/neocomplete'
-" Bundle 'Valloric/YouCompleteMe'
-" Bundle 'ajh17/VimCompletesMe'
-Bundle 'rdnetto/YCM-Generator'
 Bundle 'nvie/vim-flake8'
 Bundle 'matchit.zip'
 Bundle 'IndexedSearch'
@@ -70,6 +67,7 @@ augroup filetype_defaults
   au BufNewFile,BufRead *.c set filetype=cpp
   au BufNewFile,BufRead *.launch set filetype=xml
   au! BufNewFile,BufRead *.csv setf csv
+  au! BufNewFile,BufRead *.CSV setf csv
 augroup END
 
 "-- operational settings
@@ -356,6 +354,10 @@ else
 endif
 
 " handy shortcut for formatting a paragraph in normal mode
+nnoremap <Leader>vx :hi Normal guifg=#b1f2d3 guibg=#00342a<CR>:hi Search guibg=#3f576c<CR>
+
+nnoremap <Leader>vm :hi Normal guifg=#91e2b3 guibg=#06544a<CR>:hi Search guibg=#0f273c<CR>
+" handy shortcut for formatting a comment paragraph in normal mode
 nnoremap <Leader>q :call FormatComment()<CR>
 " handy shortcuts for converting a word to uppercase
 nnoremap <Leader>~ gUawe
@@ -404,7 +406,12 @@ nnoremap <Leader>es :s/\v(\S+) \= (\S*);@=/\2 = \1/<cr>:noh<cr>
 " spread a conditional expression onto four lines (for C++)
 nnoremap <Leader>ec :s/^\(\s*\)\(.*\) { \(.*\) }.*$/\1\2\r\1{\r\1\t\3\r\1}/<cr>:-2,.retab<cr>:noh<cr>
 " Turn YCM on and off (for cases where autocompletion hangs)
-nnoremap <leader>y :call YCMToggle()<cr>
+" nnoremap <leader>y :call YCMToggle()<cr>
+nnoremap <leader>y :NeoCompleteToggle<cr>
+
+nnoremap <Leader>gc :e %<.c<CR>
+nnoremap <Leader>gp :e %<.cpp<CR>
+nnoremap <Leader>gh :e %<.h<CR>
 
 function! YCMToggle()
     if g:ycm_auto_trigger
