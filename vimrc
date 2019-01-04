@@ -17,17 +17,16 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " My Bundles here:
-Plug 'FormatBlock'
+Plug 'vim_scripts/FormatBlock'
 Plug 'scrooloose/nerdtree'
-" Bundle 'Shougo/neocomplete'
 Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'nvie/vim-flake8'
-Plug 'matchit.zip'
-Plug 'IndexedSearch'
+Plug 'vim_scripts/matchit.zip'
+Plug 'vim_scripts/IndexedSearch'
 Plug 'jdschw/filetype_overrides'
-Plug 'FormatComment.vim'
+Plug 'vim_scripts/FormatComment.vim'
 Plug 'jdschw/SimpylFold'
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
