@@ -8,31 +8,47 @@ filetype off
 " filetype is enabled in the next section
 
 
-"-- bundle related stuff (for plugins)
+"-- Neovim options
+
+if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
 
 if empty(glob("~/.vim/autoload/plug.vim"))
     execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
 endif
 
+"-- bundle related stuff (for plugins)
+
 call plug#begin('~/.vim/plugged')
 
 " My Bundles here:
-Plug 'vim_scripts/FormatBlock'
+
+" Handy directory tree navigation
 Plug 'scrooloose/nerdtree'
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'nvie/vim-flake8'
-Plug 'vim_scripts/matchit.zip'
-Plug 'vim_scripts/IndexedSearch'
-Plug 'jdschw/filetype_overrides'
-Plug 'vim_scripts/FormatComment.vim'
-Plug 'jdschw/SimpylFold'
-Plug 'kien/ctrlp.vim'
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'tpope/vim-surround'
-Plug 'avakhov/vim-yaml'
-Plug 'kballard/vim-swift'
+
+" asynchronous completion engine
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+Plug 'nvie/vim-flake8'           " pep8 checker
+Plug 'vim-scripts/IndexedSearch' " Tells me 'Match X of Y matches in file'
+Plug 'jdschw/filetype_overrides' " Some homegrown improvements for files
+Plug 'jdschw/SimpylFold'         " Better folding in python, customized by me
+Plug 'kien/ctrlp.vim'            " Fast fuzzy file finding
+Plug 'FelikZ/ctrlp-py-matcher'   " Faster performance for ctrlp
+Plug 'tpope/vim-surround'        " change tags and quotes surrounding a phrase
+Plug 'avakhov/vim-yaml'          " sensible yaml setup
+Plug 'kballard/vim-swift'        " sensible swift setup
+Plug 'vim-scripts/marklar.vim'   " my preferred colorscheme
+Plug 'kana/vim-textobj-user'     " required for the below plugin
+Plug 'glts/vim-textobj-comment'  " a comment 'object' for use with gq commands
 
 call plug#end()
 
@@ -74,6 +90,8 @@ augroup filetype_defaults
 augroup END
 
 "-- operational settings
+
+" Setting up nicer colors where available
 filetype indent plugin on     " Enable filetype detection, indenting, plugins
 
 "compiler ruby                 " Enable compiler support for ruby
@@ -113,7 +131,7 @@ set showfulltag               " show full completion tags
 set noerrorbells              " no error bells please
 set report=0                  " show number of substitutions when > 0 (i.e. always)
 set linebreak                 " when wrap is on, only wrap at reasonable characters
-set cmdheight=2               " command line two lines high
+"set cmdheight=2               " command line two lines high
 set undolevels=1000           " 1000 undos
 set updatecount=100           " save every 100 chars
 set complete=.,w,b,u,U,t,i,d  " do lots of scanning on tab completion
@@ -338,9 +356,19 @@ set foldtext=NeatFoldText()
 "-- colorscheme & formatting
 " This colorscheme is easy on the eyes, plus I prefer to set an inconspicuous
 " color for the warning track
-if has('gui_running')
+if (has("termguicolors"))
+  set termguicolors
+endif
+
+let g:palenight_terminal_italics=1
+
+if or(has('gui_running'), has("termguicolors"))
   colorscheme marklar
+  Marklar bold 1
+  Marklar underline 1
   highlight ColorColumn guibg=#06443a
+  highlight Normal guifg=#b1f2d3 guibg=#00342a
+  highlight Search guibg=#3f576c
 else
   " We are using vim, not gvim
   " setting the terminal to 256 colors, and setting it back on exit
@@ -356,12 +384,12 @@ else
 
 endif
 
-" handy shortcut for formatting a paragraph in normal mode
+" quick switching between high and low constrast marklar modes
 nnoremap <Leader>vx :hi Normal guifg=#b1f2d3 guibg=#00342a<CR>:hi Search guibg=#3f576c<CR>
-
 nnoremap <Leader>vm :hi Normal guifg=#91e2b3 guibg=#06544a<CR>:hi Search guibg=#0f273c<CR>
+
 " handy shortcut for formatting a comment paragraph in normal mode
-nnoremap <Leader>q :call FormatComment()<CR>
+nmap <Leader>q gqac
 " handy shortcuts for converting a word to uppercase
 nnoremap <Leader>~ gUawe
 inoremap <F2> <ESC>bgUawea
