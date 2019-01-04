@@ -9,32 +9,36 @@ filetype off
 
 
 "-- bundle related stuff (for plugins)
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
 
-" let Vundle manage Vundle
-" required!
-Bundle 'gmarik/vundle'
+if empty(glob("~/.vim/autoload/plug.vim"))
+    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
+
+call plug#begin('~/.vim/plugged')
 
 " My Bundles here:
-Bundle 'FormatBlock'
-Bundle 'scrooloose/nerdtree'
-Bundle 'Shougo/neocomplete'
-Bundle 'nvie/vim-flake8'
-Bundle 'matchit.zip'
-Bundle 'IndexedSearch'
-Bundle 'jdschw/filetype_overrides'
-Bundle 'FormatComment.vim'
-Bundle 'jdschw/SimpylFold'
-Bundle 'kien/ctrlp.vim'
-Bundle 'FelikZ/ctrlp-py-matcher'
-Bundle 'tpope/vim-surround'
-Bundle 'avakhov/vim-yaml'
+Plug 'FormatBlock'
+Plug 'scrooloose/nerdtree'
+" Bundle 'Shougo/neocomplete'
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'nvie/vim-flake8'
+Plug 'matchit.zip'
+Plug 'IndexedSearch'
+Plug 'jdschw/filetype_overrides'
+Plug 'FormatComment.vim'
+Plug 'jdschw/SimpylFold'
+Plug 'kien/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'tpope/vim-surround'
+Plug 'avakhov/vim-yaml'
+Plug 'kballard/vim-swift'
+
+call plug#end()
 
 " Neocomplete options
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:deoplete#enable_at_startup = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
@@ -405,9 +409,13 @@ nnoremap <Leader>; :AddSemicolon<cr>
 nnoremap <Leader>es :s/\v(\S+) \= (\S*);@=/\2 = \1/<cr>:noh<cr>
 " spread a conditional expression onto four lines (for C++)
 nnoremap <Leader>ec :s/^\(\s*\)\(.*\) { \(.*\) }.*$/\1\2\r\1{\r\1\t\3\r\1}/<cr>:-2,.retab<cr>:noh<cr>
+" swap a pair of arguments separated by a comma
+nnoremap <Leader>em :s/\(\(\w\\|\.\)\+\), \(\(\w\\|\.\)\+\)/\3, \1/<cr>:noh<cr>
+
 " Turn YCM on and off (for cases where autocompletion hangs)
 " nnoremap <leader>y :call YCMToggle()<cr>
-nnoremap <leader>y :NeoCompleteToggle<cr>
+" nnoremap <leader>y :NeoCompleteToggle<cr>
+nnoremap <leader>y :call deoplete#toggle()<cr>
 
 nnoremap <Leader>gc :e %<.c<CR>
 nnoremap <Leader>gp :e %<.cpp<CR>
