@@ -19,7 +19,7 @@ if empty(glob("~/.vim/autoload/plug.vim"))
     execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
 endif
 
-"-- bundle related stuff (for plugins)
+"-- plugins
 
 call plug#begin('~/.vim/plugged')
 
@@ -49,12 +49,15 @@ Plug 'kballard/vim-swift'        " sensible swift setup
 Plug 'vim-scripts/marklar.vim'   " my preferred colorscheme
 Plug 'kana/vim-textobj-user'     " required for the below plugin
 Plug 'glts/vim-textobj-comment'  " a comment 'object' for use with gq commands
+Plug 'easymotion/vim-easymotion' " faster motions around the buffer
 
 call plug#end()
 
-" Neocomplete options
+" Plugin options
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+map \ <Plug>(easymotion-prefix)
 
 
 " YCM options
@@ -131,7 +134,7 @@ set showfulltag               " show full completion tags
 set noerrorbells              " no error bells please
 set report=0                  " show number of substitutions when > 0 (i.e. always)
 set linebreak                 " when wrap is on, only wrap at reasonable characters
-"set cmdheight=2               " command line two lines high
+set cmdheight=2               " command line two lines high
 set undolevels=1000           " 1000 undos
 set updatecount=100           " save every 100 chars
 set complete=.,w,b,u,U,t,i,d  " do lots of scanning on tab completion
@@ -287,6 +290,21 @@ nnoremap <S-Up> <C-W>5+
 nnoremap <F9> <C-W>=
 nnoremap <F8> :resize<cr>:vertical resize<cr>
 
+
+"-- Copy/pasting with the mouse
+function! g:ToggleMouseCopy()
+  if(&mouse =~ '.*n.*')
+    set mouse-=n
+  else
+    set mouse+=n
+  endif
+endfunc
+
+"nnoremap <C-x> :call g:ToggleMouseCopy()<CR>
+" a better way...direct copy with C-X
+vnoremap <C-x> "*yy
+vnoremap <C-c> "*yy
+
 "-- comments
 function! CommentMyLine()
   s/^/#\ /e
@@ -425,6 +443,8 @@ map <leader>vn :call g:ToggleNuMode()<CR>
 "-- misc useful mappings
 " source the vimrc file
 nnoremap <leader>S :source ~/.vimrc<cr>
+" Reload all the visible windows (e.g. after changing branches)
+nnoremap <leader>R :windo e<cr>
 " save and build
 nnoremap <Leader>wm :w<cr>:make<cr>
 " ,nn will toggle NERDTree on and off
