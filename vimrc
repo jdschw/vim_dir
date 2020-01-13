@@ -37,12 +37,14 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-bash' }
+Plug 'junegunn/fzf.vim'
 Plug 'nvie/vim-flake8'           " pep8 checker
 Plug 'vim-scripts/IndexedSearch' " Tells me 'Match X of Y matches in file'
 Plug 'jdschw/filetype_overrides' " Some homegrown improvements for files
 Plug 'jdschw/SimpylFold'         " Better folding in python, customized by me
-Plug 'kien/ctrlp.vim'            " Fast fuzzy file finding
-Plug 'FelikZ/ctrlp-py-matcher'   " Faster performance for ctrlp
+" Plug 'kien/ctrlp.vim'            " Fast fuzzy file finding
+" Plug 'FelikZ/ctrlp-py-matcher'   " Faster performance for ctrlp
 Plug 'tpope/vim-surround'        " change tags and quotes surrounding a phrase
 Plug 'avakhov/vim-yaml'          " sensible yaml setup
 Plug 'kballard/vim-swift'        " sensible swift setup
@@ -71,9 +73,9 @@ map \ <Plug>(easymotion-prefix)
 let g:ycm_error_symbol = '!!'
 
 " ctrlp options
-let g:ctrlp_working_path_mode = '0'
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:20'
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+" let g:ctrlp_working_path_mode = '0'
+" let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:20'
+" let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
 
 " VimCompletesMe
@@ -458,6 +460,7 @@ nnoremap <Leader>es :s/\v(\S+) \= (\S*);@=/\2 = \1/<cr>:noh<cr>
 nnoremap <Leader>ec :s/^\(\s*\)\(.*\) { \(.*\) }.*$/\1\2\r\1{\r\1\t\3\r\1}/<cr>:-2,.retab<cr>:noh<cr>
 " swap a pair of arguments separated by a comma
 nnoremap <Leader>em :s/\(\(\w\\|\.\)\+\), \(\(\w\\|\.\)\+\)/\3, \1/<cr>:noh<cr>
+nnoremap <C-p> :Files<cr>
 
 " Turn YCM on and off (for cases where autocompletion hangs)
 " nnoremap <leader>y :call YCMToggle()<cr>
