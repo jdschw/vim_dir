@@ -53,6 +53,8 @@ Plug 'kana/vim-textobj-user'     " required for the below plugin
 Plug 'glts/vim-textobj-comment'  " a comment 'object' for use with gq commands
 Plug 'easymotion/vim-easymotion' " faster motions around the buffer
 
+Plug 'lakshayg/vim-bazel'        " bazel integration
+
 call plug#end()
 
 " Plugin options
@@ -320,6 +322,10 @@ nnoremap <Leader>u :call UncommentMyLine()<cr><cr>
 vnoremap <Leader>c :call CommentMyLine()<cr><cr>
 vnoremap <Leader>u :call UncommentMyLine()<cr><cr>
 
+
+"-- grep
+set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+
 "-- ctags
 nnoremap <Leader>tt :!ctags -R .<cr>
 " open the new tag in a vertical split
@@ -446,7 +452,7 @@ map <leader>vn :call g:ToggleNuMode()<CR>
 " source the vimrc file
 nnoremap <leader>S :source ~/.vimrc<cr>
 " Reload all the visible windows (e.g. after changing branches)
-nnoremap <leader>R :windo e<cr>
+nnoremap <leader>R :let saved_winnr = winnr()<cr>:windo e<cr>:exec saved_winnr . 'wincmd w'<cr>
 " save and build
 nnoremap <Leader>wm :w<cr>:make<cr>
 " ,nn will toggle NERDTree on and off
@@ -470,6 +476,8 @@ nnoremap <leader>y :call deoplete#toggle()<cr>
 nnoremap <Leader>gc :e %<.c<CR>
 nnoremap <Leader>gp :e %<.cpp<CR>
 nnoremap <Leader>gh :e %<.h<CR>
+nnoremap <Leader>gb :e %:p:h/BUILD<CR>
+nnoremap <Leader>gg :b#<CR>
 
 function! YCMToggle()
     if g:ycm_auto_trigger
